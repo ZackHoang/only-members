@@ -12,11 +12,10 @@ const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require("bcryptjs");
 
 passport.use(
-    new LocalStrategy(async (userName, password, done) => {
+    new LocalStrategy(async (username, password, done) => {
         try {
-            const user = await searchUser(userName);
-            console.log(user);
-
+            const user = await searchUser(username);
+            // console.log(user);
             if (!user) {
                 return done(null, false, { message: "Incorrect username and/or password" });
             }
@@ -32,12 +31,14 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
+    // console.log(user);
     done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
     try {
         const user = await searchUserID(id);
+        // console.log(user);
         done(null, user);
     } catch(err) {
         done(err);
@@ -51,20 +52,21 @@ app.use(express.static(__dirname));
 app.use(session({
     secret: process.env.SECRET,
     resave: false, 
-    saveUninitialized: false
+    saveUninitialized: false, 
+    cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 },
 }));
 app.use(passport.session());
 app.use(express.urlencoded({extended: false}));
 
 app.use("/", logInRouter);
 app.use("/sign-up", signUpRouter);
-app.get("/home", (req, res) => {res.render("home")});
 app.post("/log-in",
     passport.authenticate("local", {
-        successRedirect: "/home",
-        failureRedirect: "/"
+        successRedirect: '/home',
+        failureRedirect: '/'    
     })
 );
+app.get("/home", (req, res) => {res.render("home")});
 
 app.listen(port, () => {
     console.log("Listening");
