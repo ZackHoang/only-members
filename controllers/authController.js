@@ -37,9 +37,7 @@ passport.deserializeUser(async (id, done) => {
     }
 });
 
-exports.authenticate = () => {
-    passport.authenticate("local", {
-        successRedirect: "/home", 
-        failureRedirect: "/"
-    })
-};
+exports.authenticate = passport.authenticate("local", {
+    successRedirect: "/home", 
+    failureRedirect: "/"
+});

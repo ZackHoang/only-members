@@ -6,46 +6,10 @@ const passport = require("passport");
 const path = require("node:path");
 const signUpRouter = require("./routers/signUpRouter");
 const logInRouter = require("./routers/logInRouter");
-const { searchUser, searchUserID } = require("./db/queries");
 const port = process.env.PORT || 3000;
-const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require("bcryptjs");
 const pool = require("./db/pool");
 const authRouter = require("./routers/authRouter");
-
-// passport.use(
-//     new LocalStrategy(async (username, password, done) => {
-//         try {
-//             const user = await searchUser(username);    
-//             // console.log(user);
-//             if (!user) {
-//                 return done(null, false, { message: "Incorrect username and/or password" });
-//             }
-//             const match = await bcrypt.compare(password, user.password);
-//             if (!match) {
-//                 return done(null, false, { message: "Incorrect username and/or password" });
-//             }
-//             return done(null, user);
-//         } catch(err) {
-//             return done(err);   
-//         }
-//     })
-// );
-
-// passport.serializeUser((user, done) => {
-//     // console.log(user);
-//     done(null, user.id);
-// });
-
-// passport.deserializeUser(async (id, done) => {
-//     try {
-//         const user = await searchUserID(id);
-//         // console.log(user);
-//         done(null, user);
-//     } catch(err) {
-//         done(err);
-//     }
-// })
+const homeRouter = require("./routers/homeRouter");
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -68,9 +32,7 @@ app.use(express.urlencoded({extended: false}));
 app.use("/", logInRouter);
 app.use("/sign-up", signUpRouter);
 app.use("/log-in", authRouter);
-app.get("/home", (req, res) => {
-    res.render("home")}
-);
+app.use("/home", homeRouter);
 
 app.listen(port, () => {
     console.log("Listening");
