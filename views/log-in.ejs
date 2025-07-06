@@ -16,6 +16,9 @@
             <label for="password">Password</label>
             <input type="password" name="password" id="password" required>
         </div>
+        <% if (session.messages) { %>
+            <p><%= session.messages[0] %></p>
+        <% } %>
         <button type="submit">Submit</button>
         <p>Don't have an account? <a href="/sign-up">Sign up now!</a></p>
     </form>

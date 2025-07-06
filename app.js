@@ -31,6 +31,7 @@ app.use(express.urlencoded({extended: false}));
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     res.locals.errors = req.errors;
+    res.locals.session = req.session;       
     next();
 })
 

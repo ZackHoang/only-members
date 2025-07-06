@@ -4,7 +4,7 @@ const { searchUser, searchUserID } = require("../db/queries");
 const bcrypt = require("bcryptjs");
 
 passport.use(
-    new LocalStrategy(async (username, password, done) => {
+    new LocalStrategy({passReqToCallback: true}, async (req, username, password, done) => {
         try {
             const user = await searchUser(username);    
             // console.log(user);
@@ -15,6 +15,7 @@ passport.use(
             if (!match) {
                 return done(null, false, { message: "Incorrect username and/or password" });
             }
+            delete req.session.messages;
             return done(null, user);
         } catch(err) {
             return done(err);   
@@ -39,5 +40,6 @@ passport.deserializeUser(async (id, done) => {
 
 exports.authenticate = passport.authenticate("local", {
     successRedirect: "/home", 
-    failureRedirect: "/"
+    failureRedirect: "/",
+    failureMessage: true
 });
