@@ -28,6 +28,11 @@ app.use(session({
 }));
 app.use(passport.session());
 app.use(express.urlencoded({extended: false}));
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    res.locals.errors = req.errors;
+    next();
+})
 
 app.use("/", logInRouter);
 app.use("/sign-up", signUpRouter);
