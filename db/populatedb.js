@@ -8,6 +8,7 @@ const SQL = `
         last_name VARCHAR(255),
         username VARCHAR(255),
         password VARCHAR(255),
+        is_member BOOLEAN,
         is_admin BOOLEAN
     );
 
