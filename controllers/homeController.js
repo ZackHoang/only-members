@@ -1,4 +1,7 @@
 exports.displayHome = (req, res, next) => {
-    console.log(req.user);
-    res.render("home");
+    if (req.isAuthenticated()) {
+        res.render("home");
+    } else {
+        res.status(401).redirect("/error");
+    }
 }

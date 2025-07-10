@@ -10,6 +10,8 @@ const port = process.env.PORT || 3000;
 const pool = require("./db/pool");
 const authRouter = require("./routers/authRouter");
 const homeRouter = require("./routers/homeRouter");
+const errorRouter = require("./routers/errorRouter");
+const logoutRouter = require("./routers/logoutRouter");
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -29,6 +31,8 @@ app.use(session({
 app.use(passport.session());
 app.use(express.urlencoded({extended: false}));
 app.use((req, res, next) => {
+    console.log(req.user); 
+    console.log(req.session);
     res.locals.currentUser = req.user;
     res.locals.errors = req.errors;
     res.locals.session = req.session;       
@@ -38,6 +42,15 @@ app.use((req, res, next) => {
 app.use("/", logInRouter);
 app.use("/sign-up", signUpRouter);
 app.use("/log-in", authRouter);
+app.use("/error", errorRouter);
+app.use("/log-out", logoutRouter);
+// app.use((req, res, next) => {
+//     if (!req.user && !req.session) {
+//         res.status(401).redirect("/error")
+//     } else {
+//         app.use("/home", homeRouter);
+//     }
+// })
 app.use("/home", homeRouter);
 
 app.listen(port, () => {
