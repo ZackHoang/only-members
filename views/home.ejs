@@ -11,10 +11,30 @@
     <% } %>
     <form action="/home" method="POST">
         <label for="post">What's on your mind?</label>
-        <textarea name="post" id="post"></textarea>
+        <textarea name="post" id="post" required></textarea>
+        <% if (locals.error) { %>
+            <p><%= error %></p>
+        <% } %>
         <button type="submit">Submit</button>
     </form>
     <h1>You reached the home page.</h1>
+    <div>
+        <% for (let i = 0; i < posts.length; i++) { %>
+            <div>
+                <% if (currentUser.is_member == true) { %>
+                    <h2>Author: <%= posts[i].username %></h2>
+                    <h3>Date: <%= posts[i].date.toDateString() %></h3>
+                <% } else { %>
+                    <h2>Author: Unknown</h2>
+                    <h3>Date: Unknown</h3>
+                <% } %>
+                <p><%= posts[i].body %></p>
+                <% if (currentUser.is_admin == true) { %>
+                    <a href="/delete">Delete</a>
+                <% } %>
+            </div>
+        <% } %>
+    </div>
     <a href="/log-out">LOG OUT</a>
 </body>
 </html>

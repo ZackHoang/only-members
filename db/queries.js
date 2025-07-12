@@ -28,3 +28,12 @@ exports.searchUserID = async (id) => {
 exports.updateMembership = async (id) => {
     await pool.query("UPDATE only_members_users SET is_member = TRUE WHERE id = $1", [id]);
 }
+
+exports.getAllPosts = async () => {
+    const { rows } = await pool.query("SELECT * FROM only_members_posts;");
+    return rows;
+}
+
+exports.addPost = async (username, body, date) => {
+    await pool.query("INSERT INTO only_members_posts (username, body, date) VALUES ($1, $2, $3);", [username, body, date]);
+}
