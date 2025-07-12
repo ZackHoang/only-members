@@ -6,10 +6,15 @@
     <title>Home</title>
 </head>
 <body> 
-    <% if (currentUser) { %>
-        <p>You are logged in.</p>
-        <a href="/log-out">LOG OUT</a>
+    <% if (currentUser.is_member == false) { %>
+        <a href="/member">Become a member!</a>
     <% } %>
+    <form action="/home" method="POST">
+        <label for="post">What's on your mind?</label>
+        <textarea name="post" id="post"></textarea>
+        <button type="submit">Submit</button>
+    </form>
     <h1>You reached the home page.</h1>
+    <a href="/log-out">LOG OUT</a>
 </body>
 </html>
