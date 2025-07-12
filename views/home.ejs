@@ -30,7 +30,7 @@
                 <% } %>
                 <p><%= posts[i].body %></p>
                 <% if (currentUser.is_admin == true) { %>
-                    <a href="/delete">Delete</a>
+                    <a href="/delete/<%= posts[i].id %>">Delete</a>
                 <% } %>
             </div>
         <% } %>

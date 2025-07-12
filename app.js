@@ -13,6 +13,7 @@ const homeRouter = require("./routers/homeRouter");
 const errorRouter = require("./routers/errorRouter");
 const logoutRouter = require("./routers/logoutRouter");
 const memberRouter = require("./routers/memberRouter");
+const deleteRouter = require("./routers/deleteRouter");
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -54,6 +55,7 @@ app.use("/log-out", logoutRouter);
 // })
 app.use("/home", homeRouter);
 app.use("/member", memberRouter);
+app.use("/delete", deleteRouter);
 
 app.listen(port, () => {
     console.log("Listening");

@@ -37,3 +37,7 @@ exports.getAllPosts = async () => {
 exports.addPost = async (username, body, date) => {
     await pool.query("INSERT INTO only_members_posts (username, body, date) VALUES ($1, $2, $3);", [username, body, date]);
 }
+
+exports.deletePost = async (id) => {
+    await pool.query("DELETE FROM only_members_posts WHERE id = $1", [id]);
+}
